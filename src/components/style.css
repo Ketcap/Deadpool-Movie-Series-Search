@@ -1,0 +1,5 @@
+.middle{
+	height: calc(100% - 120px);
+	padding-bottom:56px;
+	position: relative;
+}
