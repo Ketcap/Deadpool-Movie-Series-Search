@@ -33,17 +33,15 @@ export default class App extends Component {
 	render({} , { snacks }) {
 		return (
 			<Provider GlobalStore={GlobalStore}>
-				<div id="app">
-					<Helmet
-						title="Deadpool Movie"
-						meta={[
-							{'viewport': 'width=device-width, initial-scale=1.0'}
-						]}
-					/>
-					<MuiThemeProvider>
+				<MuiThemeProvider>			
+					<div id="app">
+						<Helmet
+							title="Deadpool Movie"
+							meta={[
+								{'viewport': 'width=device-width, initial-scale=1.0'}
+							]}
+						/>
 						<Header />
-					</MuiThemeProvider>
-					<MuiThemeProvider>
 						<div class={style.middle}>
 							<Router onChange={this.handleRoute}>
 								<Movies path="/" />
@@ -59,11 +57,9 @@ export default class App extends Component {
 								''
 							}
 						</div>
-					</MuiThemeProvider>
-					<MuiThemeProvider>
 						<BottomNav />
-					</MuiThemeProvider>
-				</div>
+					</div>
+				</MuiThemeProvider>
 			</Provider>
 		);
 	}
