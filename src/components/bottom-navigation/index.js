@@ -19,11 +19,26 @@ export default class BottomNav extends Component {
 	};
 
 	select = (index,r) => { this.setState({ selectedIndex: index }); route(r); }
+
+	componentDidMount(){
+		setTimeout(() => {
+			let page = this.props.page;
+			if (page === '/'){
+				this.setState({ selectedIndex: 0 });
+			}
+			else if (page === '/series'){
+				this.setState({ selectedIndex: 2 });
+			}
+			else {
+				this.setState({ selectedIndex: 1 });
+			}
+		},0);
+	}
 	
 	render( { } , { selectedIndex } ) {
 		return (
 			<Paper zDepth={1}>
-				<BottomNavigation style={{position:'fixed',bottom:0}} selectedIndex={this.state.selectedIndex}>
+				<BottomNavigation style={{ position: 'fixed',bottom: 0 }} selectedIndex={this.state.selectedIndex}>
 					<BottomNavigationItem
 						label="Movies"
 						icon={moviesIcon}

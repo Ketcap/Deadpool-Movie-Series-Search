@@ -78,7 +78,7 @@ export default class Series extends Component {
 							return (
 								<GridTile
 									title={tv.name}
-									subtitle={<span><b>Score : {tv.vote_average}</b></span>}
+									subtitle={tv.vote_average !== 0 ? <span><b>Score : {tv.vote_average}</b></span> : ''}
 									titlePosition="top"
 									titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
 									cols={index === 0 || index === 3 ? 2 : 1}
@@ -86,7 +86,7 @@ export default class Series extends Component {
 									//eslint-disable-next-line
 									onClick={() => this.routeToMovie(tv)}
 								>
-									<img src={`${GlobalStore.image_url}/w500`+(tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
+									<img style={{ top: '0' }} src={`${GlobalStore.image_url}/w500`+(tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
 								</GridTile>
 							);
 						})

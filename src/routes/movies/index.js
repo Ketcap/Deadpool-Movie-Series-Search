@@ -4,6 +4,7 @@ import style from './style';
 import CircularProgress from 'material-ui/CircularProgress';
 import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
+import InfoDrawer from '../../components/info-drawer';
 
 import { connect } from 'mobx-preact';
 import fetch from 'unfetch';
@@ -13,7 +14,8 @@ export default class Movies extends Component {
 	state = {
 		result: [],
 		page: 0,
-		totalPages: 0
+		totalPages: 0,
+		movie: null
 	}
 
 	loadMore(key){
@@ -32,8 +34,11 @@ export default class Movies extends Component {
 			this.setState({ result: newResults });
 		});
 	}
-	routeToMovie(movie){
-		console.log(movie);
+	openDrawer(self,movie){
+		this.setState({
+			movie
+		});
+		self.props.GlobalStore.infoDrawer = true;
 	}
 
 	componentDidMount(){
@@ -54,9 +59,10 @@ export default class Movies extends Component {
 		});
 
 	}
-	render( { GlobalStore } , { result , page , totalPages } ) {
+	render( { GlobalStore } , { result , page , totalPages , drawer , movie } ) {
 		const loaded = result.length > 0 ;
 		const more = page < totalPages;
+		const infoDrawer = GlobalStore.infoDrawer ? <InfoDrawer movie={movie} /> : '' ;
 		if (!loaded){
 			return (
 				<div class={`${style.loadingParent}`}>
@@ -66,6 +72,7 @@ export default class Movies extends Component {
 		}
 		return (
 			<div>
+				{infoDrawer}
 				<GridList
 					cols={2}
 					cellHeight={200}
@@ -83,7 +90,7 @@ export default class Movies extends Component {
 									cols={index === 0 || index === 3 ? 2 : 1}
 									rows={index === 0 || index === 3 ? 2 : 1}
 									//eslint-disable-next-line
-									onClick={() => this.routeToMovie(movie)}
+									onClick={() => {this.openDrawer(this,movie)}}
 								>
 									<img src={`${GlobalStore.image_url}/w500`+(movie.backdrop_path !== null ? movie.backdrop_path : movie.poster_path)} />
 								</GridTile>
