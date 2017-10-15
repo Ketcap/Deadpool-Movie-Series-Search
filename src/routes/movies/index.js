@@ -4,7 +4,6 @@ import style from './style';
 import CircularProgress from 'material-ui/CircularProgress';
 import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
-import InfoDrawer from '../../components/info-drawer';
 
 import { connect } from 'mobx-preact';
 import fetch from 'unfetch';
@@ -34,10 +33,9 @@ export default class Movies extends Component {
 			this.setState({ result: newResults });
 		});
 	}
+
 	openDrawer(self,movie){
-		this.setState({
-			movie
-		});
+		self.props.GlobalStore.data = movie;
 		self.props.GlobalStore.infoDrawer = true;
 	}
 
@@ -62,7 +60,6 @@ export default class Movies extends Component {
 	render( { GlobalStore } , { result , page , totalPages , drawer , movie } ) {
 		const loaded = result.length > 0 ;
 		const more = page < totalPages;
-		const infoDrawer = GlobalStore.infoDrawer ? <InfoDrawer movie={movie} /> : '' ;
 		if (!loaded){
 			return (
 				<div class={`${style.loadingParent}`}>
@@ -72,7 +69,6 @@ export default class Movies extends Component {
 		}
 		return (
 			<div>
-				{infoDrawer}
 				<GridList
 					cols={2}
 					cellHeight={200}
