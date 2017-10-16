@@ -36,6 +36,7 @@ export default class Movies extends Component {
 
 	openDrawer(self,movie){
 		self.props.GlobalStore.data = movie;
+		self.props.GlobalStore.type = 'movie';
 		self.props.GlobalStore.infoDrawer = true;
 	}
 

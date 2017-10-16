@@ -46,19 +46,24 @@ export default class InfoDrawer extends Component{
 		},200);
 	}
 
+	date(date){
+		const d = new Date(date);
+		return `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
+	}
+
 	findMovie(){
 		this.setState({
 			loading: true,
 			open: true
 		});
-		const movieId = this.props.GlobalStore.data.id;
+		const Id = this.props.GlobalStore.data.id;
 		const v3 = this.props.GlobalStore.v3_key;
-		const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${v3}&language=en-US&append_to_response=credits,videos`;
+		const type = this.props.GlobalStore.type;
+		const url = `https://api.themoviedb.org/3/${type}/${Id}?api_key=${v3}&language=en-US&append_to_response=credits,videos`;
 		fetch(url,{
 			method: 'GET',
 			headers: {}
 		}).then( r => r.json() ).then(data => {
-			console.log(data);
 			this.setState({
 				loading: false,
 				movie: data
@@ -88,7 +93,7 @@ export default class InfoDrawer extends Component{
 				open={this.state.open}
 			>
 				{loading ?
-					<div style={{ width: '100%', height: '100%' }}>
+					<div style={{ width: '100%', height: '100%', 'margin-top': 'calc(50vh - 20px)' }}>
 						<CircularProgress style={{ display: 'block', margin: '0 auto' }}  size={50} thickness={5} />
 					</div>
 					:
@@ -140,6 +145,29 @@ export default class InfoDrawer extends Component{
 								{movie.overview}
 							</CardText>
 						</Card>
+						{GlobalStore.type === 'tv' ?
+							<List>
+								<Subheader>Seasons</Subheader>
+								<ListItem
+									primaryText={`Latest episode ${this.date(movie.last_air_date)}`}
+								/>
+								{movie.seasons.map((season,index) => {
+									if (season.season_number === 0){
+										return null;
+									}
+									return (
+										<ListItem
+											primaryText={`Season ${season.season_number}`}
+											secondaryText={`Air Date : ${this.date(season.air_date)}`}
+											/* leftAvatar={<Avatar size={50} src={`${GlobalStore.image_url}/w45${cast.profile_path}`} />} */
+										/>
+									);
+								})}
+								
+							</List>
+							:
+							''
+						}
 						<List>
 							<Subheader>Cast</Subheader>
 							{movie.credits.cast.map((cast,index) => {

@@ -12,7 +12,8 @@ let GlobalStore = observable({
 	image_url: 'https://image.tmdb.org/t/p',
 	snacks: [],
 	infoDrawer: false,
-	data: null
+	data: null,
+	type: null
 });
 
 export default class App extends Component {

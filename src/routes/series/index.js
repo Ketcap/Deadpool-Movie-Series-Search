@@ -32,8 +32,11 @@ export default class Series extends Component {
 			this.setState({ result: newResults });
 		});
 	}
-	routeToMovie(movie){
-		console.log(movie);
+
+	openDrawer(self,movie){
+		self.props.GlobalStore.data = movie;
+		self.props.GlobalStore.type = 'tv';
+		self.props.GlobalStore.infoDrawer = true;
 	}
 
 	componentDidMount(){
@@ -84,7 +87,7 @@ export default class Series extends Component {
 									cols={index === 0 || index === 3 ? 2 : 1}
 									rows={index === 0 || index === 3 ? 2 : 1}
 									//eslint-disable-next-line
-									onClick={() => this.routeToMovie(tv)}
+									onClick={() => {this.openDrawer(this,tv)}}
 								>
 									<img style={{ top: '0' }} src={`${GlobalStore.image_url}/w500`+(tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
 								</GridTile>
