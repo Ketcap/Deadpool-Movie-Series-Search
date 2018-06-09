@@ -1,5 +1,6 @@
 .middle{
 	height: calc(100% - 120px);
 	padding-bottom:56px;
+	padding-top: 64px;
 	position: relative;
 }

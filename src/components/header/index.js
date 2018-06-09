@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
 import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import IconMenu from 'material-ui/svg-icons/navigation/menu';
+import TextField from 'material-ui/TextField';
+import IconSearch from 'material-ui/svg-icons/action/search';
 import IconButton from 'material-ui/IconButton';
+import { route } from 'preact-router';
 
 export default class Header extends Component {
 	state = {
@@ -13,25 +13,31 @@ export default class Header extends Component {
 
 	handleToggle = () => { this.setState({ open: !this.state.open }); }
 
+	type = (e) => { if (e.keyCode === 13){ route(`/search/${e.target.value}`,true); }}
+
+
+
+
 	render( { } , { selectedIndex , open  } ) {
 		return (
 			<div>
 				<AppBar
-					title="Title"
+					title={ 
+						<TextField
+							id="Search"
+							//eslint-disable-next-line
+							onKeyPress={(e) => this.type(e)}
+							inputStyle={{ color: '#fff' }}
+							hintText={`Search Movies , Series `}
+							hintStyle={{ color: '#fff' }}
+							//eslint-disable-next-line
+							fullWidth={true}
+							underlineShow={false}
+						/>
+					}
 					style={{ position: 'fixed' }}
-					iconElementLeft={<IconButton
-						//eslint-disable-next-line					
-						onClick={() => this.handleToggle()}> <IconMenu /> </IconButton>}
+					iconElementLeft={<IconButton> <IconSearch /> </IconButton>}
 				/>
-				<div>
-					<Drawer docked={false} open={open}
-						//eslint-disable-next-line
-						onRequestChange={(open) => this.setState({open})}>
-						<MenuItem>Settings</MenuItem>
-						<MenuItem>Game History</MenuItem>
-						<MenuItem>Logout</MenuItem>
-					</Drawer>
-				</div>
 			</div>
 		);
 	}

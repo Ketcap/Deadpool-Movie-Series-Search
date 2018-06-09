@@ -7,13 +7,14 @@ import Header from '../header';
 import BottomNav from '../bottom-navigation';
 import Movies from '../../routes/movies';
 import Series from '../../routes/series';
-import Profile from '../../routes/profile';
+import Search from '../../routes/search';
 import SnackBar from '../snackbar';
 import InfoDrawer from '../info-drawer';
 
 import style from './style';
 
 import { connect } from 'mobx-preact';
+
 
 @connect(['GlobalStore'])
 export default class Main extends Component{
@@ -42,8 +43,7 @@ export default class Main extends Component{
 					<Router onChange={this.handleRoute}>
 						<Movies path="/" />
 						<Series path="/series" />
-						<Profile path="/profile/" user="me" />
-						<Profile path="/profile/:user" />
+						<Search path="/search/:query" />
 					</Router>
 					{GlobalStore.snacks ?
 						GlobalStore.snacks.map((snack) => {

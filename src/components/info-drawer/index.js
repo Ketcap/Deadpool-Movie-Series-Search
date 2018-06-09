@@ -9,7 +9,7 @@ import { List , ListItem } from 'material-ui/List';
 import { connect } from 'mobx-preact';
 import CircularProgress from 'material-ui/CircularProgress';
 import Dialog from 'material-ui/Dialog';
-import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
+import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -73,7 +73,7 @@ export default class InfoDrawer extends Component{
 	handleTouchTap(event) {
 		// This prevents ghost click.
 		event.preventDefault();
-
+		
 		this.setState({
 			popover: true,
 			anchorEl: event.currentTarget

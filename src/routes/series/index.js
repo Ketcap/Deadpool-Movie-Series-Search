@@ -51,7 +51,6 @@ export default class Series extends Component {
 				totalPages: data.total_pages
 			});
 			const tv = data.results;
-			console.log(tv);
 			this.setState({
 				result: tv
 			});

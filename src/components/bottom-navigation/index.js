@@ -47,7 +47,7 @@ export default class BottomNav extends Component {
 					<BottomNavigationItem
 						label="Search"
 						icon={searchIcon}
-						onClick={() => this.select(1)}
+						onClick={() => this.select(1,'/search')}
 					/>
 					<BottomNavigationItem
 						label="Series"
