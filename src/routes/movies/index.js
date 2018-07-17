@@ -6,7 +6,6 @@ import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import { connect } from 'mobx-preact';
-import fetch from 'unfetch';
 
 @connect(['GlobalStore'])
 export default class Movies extends Component {
@@ -75,23 +74,22 @@ export default class Movies extends Component {
 					class={`${style.gridList} ` + (!more ? style.finishedList : '')}
 				>
 					{
-						result.map((movie, index) => {
-							return (
-								<GridTile
-									title={movie.title}
-									subtitle={<span><b>Score : {movie.vote_average}</b></span>}
-									titlePosition="bottom"
-									titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-									cols={index === 0 || index % 3 === 0 ? 2 : 1}
-									rows={index === 0 || index % 3 === 0 ? 2 : 1}
-									//eslint-disable-next-line
-									onClick={() => { this.openDrawer(this, movie) }}
-								>
-									<img src={`${GlobalStore.image_url}/w500` + (movie.backdrop_path !== null ? movie.backdrop_path : movie.poster_path)} />
-								</GridTile>
-							);
-						})
-					}
+						result.map((movie, index) => (
+							<GridTile
+								title={movie.title}
+								subtitle={<span><b>Score : {movie.vote_average}</b></span>}
+								titlePosition="bottom"
+								titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+								cols={index === 0 || index % 3 === 0 ? 2 : 1}
+								rows={index === 0 || index % 3 === 0 ? 2 : 1}
+								//eslint-disable-next-line
+								onClick={() => { this.openDrawer(this, movie) }}
+							>
+								<img src={`${GlobalStore.image_url}/w500` + (movie.backdrop_path !== null ? movie.backdrop_path : movie.poster_path)} />
+							</GridTile>
+						))
+					})
+				}
 				</GridList>
 				{
 					more ?

@@ -42,16 +42,19 @@ export default class BottomNav extends Component {
 					<BottomNavigationItem
 						label="Movies"
 						icon={moviesIcon}
+						//eslint-disable-next-line
 						onClick={() => this.select(0, '/')}
 					/>
 					<BottomNavigationItem
 						label="Search"
 						icon={searchIcon}
+						//eslint-disable-next-line
 						onClick={() => this.select(1, '/search')}
 					/>
 					<BottomNavigationItem
 						label="Series"
 						icon={seriesIcon}
+						//eslint-disable-next-line
 						onClick={() => this.select(2, '/series')}
 					/>
 				</BottomNavigation>

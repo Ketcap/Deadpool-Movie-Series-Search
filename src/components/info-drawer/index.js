@@ -14,6 +14,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 
+
 @connect(['GlobalStore'])
 export default class InfoDrawer extends Component {
 	state = {
@@ -117,6 +118,7 @@ export default class InfoDrawer extends Component {
 								>
 									<Menu>
 										{movie.videos.results.map((video) => (
+											//eslint-disable-next-line
 											<MenuItem onClick={this.handleVideoModal.bind(this, video)} primaryText={video.name} />
 										))
 										}
@@ -132,13 +134,12 @@ export default class InfoDrawer extends Component {
 									<iframe style={{ width: '100%' }} height={400} src={`https://www.youtube.com/embed/${key}`} frameborder="0" allowfullscreen />
 								</Dialog>
 								<div style={{ display: 'flex', 'flex-wrap': 'wrap', margin: '15px 0' }}>
-									{movie.genres.map((genre) => {
-										return (
-											<Chip style={{ margin: '4px' }}>
-												{genre.name}
-											</Chip>
-										);
-									})}
+									{movie.genres.map((genre) => (
+										<Chip style={{ margin: '4px' }}>
+											{genre.name}
+										</Chip>
+									))
+									}
 								</div>
 								{movie.overview}
 							</CardText>
@@ -157,6 +158,7 @@ export default class InfoDrawer extends Component {
 										<ListItem
 											primaryText={`Season ${season.season_number}`}
 											secondaryText={`Air Date : ${this.date(season.air_date)}`}
+
 										/* leftAvatar={<Avatar size={50} src={`${GlobalStore.image_url}/w45${cast.profile_path}`} />} */
 										/>
 									);

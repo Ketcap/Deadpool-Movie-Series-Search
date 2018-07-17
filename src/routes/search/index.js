@@ -27,7 +27,6 @@ export default class Search extends Component {
 			headers: {}
 		}).then(r => r.json()).then(data => {
 			this.setState({ isSearching: !this.isSearching });
-			console.log(data);
 		});
 	}
 
@@ -41,10 +40,10 @@ export default class Search extends Component {
 
 	componentWillUpdate(newProps, newState) {
 		const query = this.props.query;
-		console.log('new PROPS', newProps);
-		console.log('old PROPS', this.props);
+		// console.log('new PROPS', newProps);
+		// console.log('old PROPS', this.props);
 		if (newProps.query !== query) {
-			console.log('search');
+			// console.log('search');
 			this.findMovie(query);
 		}
 	}
@@ -67,7 +66,8 @@ export default class Search extends Component {
 						</Tabs>
 						<SwipeableViews
 							index={slideIndex}
-							onChangeIndex={this.handleChange}>
+							onChangeIndex={this.handleChange}
+						>
 							<div>
 								<h2>Tabs with slide effect</h2>
 								Swipe to see the next slide.<br />
