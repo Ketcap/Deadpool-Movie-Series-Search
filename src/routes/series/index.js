@@ -17,19 +17,18 @@ export default class Series extends Component {
 	}
 
 	loadMore(key) {
-		const v3 = key;
-		const url = `https://api.themoviedb.org/3/tv/popular?api_key=${v3}&language=en-US&page=${++this.state.page}`;
-		fetch(url, {
-			method: 'GET',
-			headers: {}
-		}).then(r => r.json()).then(data => {
-			let results = this.state.result;
-			this.setState({
-				page: data.page,
-				total_pages: data.total_pages
-			});
-			let newResults = results.concat(data.results);
-			this.setState({ result: newResults });
+		const { Deadpool } = this.props.GlobalStore;
+		Deadpool.TopRatedSeries({
+			page: ++this.state.page,
+			callback: (data) => {
+				let results = this.state.result;
+				this.setState({
+					page: data.page,
+					total_pages: data.total_pages
+				});
+				let newResults = results.concat(data.results);
+				this.setState({ result: newResults });
+			}
 		});
 	}
 
@@ -40,20 +39,18 @@ export default class Series extends Component {
 	}
 
 	componentDidMount() {
-		const v3 = this.props.GlobalStore.v3_key;
-		const url = `https://api.themoviedb.org/3/tv/popular?api_key=${v3}&language=en-US&page=1`;
-		fetch(url, {
-			method: 'GET',
-			headers: {}
-		}).then(r => r.json()).then(data => {
-			this.setState({
-				page: data.page,
-				totalPages: data.total_pages
-			});
-			const tv = data.results;
-			this.setState({
-				result: tv
-			});
+		const { Deadpool } = this.props.GlobalStore;
+		Deadpool.TopRatedSeries({
+			callback: (data) => {
+				this.setState({
+					page: data.page,
+					totalPages: data.total_pages
+				});
+				const tv = data.results;
+				this.setState({
+					result: tv
+				});
+			}
 		});
 
 	}
@@ -81,10 +78,10 @@ export default class Series extends Component {
 								<GridTile
 									title={tv.name}
 									subtitle={tv.vote_average !== 0 ? <span><b>Score : {tv.vote_average}</b></span> : ''}
-									titlePosition="top"
+									titlePosition="bottom"
 									titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-									cols={index === 0 || index === 3 ? 2 : 1}
-									rows={index === 0 || index === 3 ? 2 : 1}
+									cols={index === 0 || index % 3 === 0 ? 2 : 1}
+									rows={index === 0 || index % 3 === 0 ? 2 : 1}
 									//eslint-disable-next-line
 									onClick={() => { this.openDrawer(this, tv) }}
 								>

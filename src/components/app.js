@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Provider } from 'mobx-preact';
 import { observable } from 'mobx';
+import Deadpool from '../deadpool';
 
 import Main from './main';
 
@@ -13,7 +14,8 @@ let GlobalStore = observable({
 	snacks: [],
 	infoDrawer: false,
 	data: null,
-	type: null
+	type: null,
+	Deadpool
 });
 
 const App = () => (

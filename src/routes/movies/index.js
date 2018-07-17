@@ -12,25 +12,24 @@ import fetch from 'unfetch';
 export default class Movies extends Component {
 	state = {
 		result: [],
-		page: 0,
+		page: 1,
 		totalPages: 0,
 		movie: null
 	}
 
 	loadMore(key) {
-		const v3 = key;
-		const url = `https://api.themoviedb.org/3/movie/popular?api_key=${v3}&language=en-US&page=${++this.state.page}`;
-		fetch(url, {
-			method: 'GET',
-			headers: {}
-		}).then(r => r.json()).then(data => {
-			let results = this.state.result;
-			this.setState({
-				page: data.page,
-				total_pages: data.total_pages
-			});
-			let newResults = results.concat(data.results);
-			this.setState({ result: newResults });
+		const { Deadpool } = this.props.GlobalStore;
+		Deadpool.PopularMovies({
+			page: ++this.state.page,
+			callback: (data) => {
+				let results = this.state.result;
+				this.setState({
+					page: data.page,
+					total_pages: data.total_pages
+				});
+				let newResults = results.concat(data.results);
+				this.setState({ result: newResults });
+			}
 		});
 	}
 
@@ -41,21 +40,20 @@ export default class Movies extends Component {
 	}
 
 	componentDidMount() {
-		const v3 = this.props.GlobalStore.v3_key;
-		const url = `https://api.themoviedb.org/3/movie/popular?api_key=${v3}&language=en-US&page=1`;
-		fetch(url, {
-			method: 'GET',
-			headers: {}
-		}).then(r => r.json()).then(data => {
-			this.setState({
-				page: data.page,
-				totalPages: data.total_pages
-			});
-			const movies = data.results;
-			this.setState({
-				result: movies
-			});
+		const { Deadpool } = this.props.GlobalStore;
+		Deadpool.PopularMovies({
+			callback: (data) => {
+				this.setState({
+					page: data.page,
+					totalPages: data.total_pages
+				});
+				const movies = data.results;
+				this.setState({
+					result: movies
+				});
+			}
 		});
+
 
 	}
 	render({ GlobalStore }, { result, page, totalPages, drawer, movie }) {
@@ -82,10 +80,10 @@ export default class Movies extends Component {
 								<GridTile
 									title={movie.title}
 									subtitle={<span><b>Score : {movie.vote_average}</b></span>}
-									titlePosition="top"
+									titlePosition="bottom"
 									titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-									cols={index === 0 || index === 3 ? 2 : 1}
-									rows={index === 0 || index === 3 ? 2 : 1}
+									cols={index === 0 || index % 3 === 0 ? 2 : 1}
+									rows={index === 0 || index % 3 === 0 ? 2 : 1}
 									//eslint-disable-next-line
 									onClick={() => { this.openDrawer(this, movie) }}
 								>
@@ -95,16 +93,17 @@ export default class Movies extends Component {
 						})
 					}
 				</GridList>
-				{more ?
-					<div class={style.loadMore}>
-						<RaisedButton label="Load More"
-							//eslint-disable-next-line
-							fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)} />
-					</div>
-					:
-					null
+				{
+					more ?
+						<div class={style.loadMore}>
+							<RaisedButton label="Load More"
+								//eslint-disable-next-line
+								fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)} />
+						</div>
+						:
+						null
 				}
-			</div>
+			</div >
 		);
 	}
 }

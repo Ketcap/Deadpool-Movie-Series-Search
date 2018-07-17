@@ -52,22 +52,20 @@ export default class InfoDrawer extends Component {
 	}
 
 	findMovie() {
+		const { Deadpool, type } = this.props.GlobalStore;
+		const { id } = this.props.GlobalStore.data;
 		this.setState({
 			loading: true,
 			open: true
 		});
-		const Id = this.props.GlobalStore.data.id;
-		const v3 = this.props.GlobalStore.v3_key;
-		const type = this.props.GlobalStore.type;
-		const url = `https://api.themoviedb.org/3/${type}/${Id}?api_key=${v3}&language=en-US&append_to_response=credits,videos`;
-		fetch(url, {
-			method: 'GET',
-			headers: {}
-		}).then(r => r.json()).then(data => {
-			this.setState({
-				loading: false,
-				movie: data
-			});
+		Deadpool.FindId({
+			type, id,
+			callback: (data) => {
+				this.setState({
+					loading: false,
+					movie: data
+				});
+			}
 		});
 	}
 	handleTouchTap = (event) => {
@@ -85,7 +83,8 @@ export default class InfoDrawer extends Component {
 	}
 	render({ GlobalStore }, { loading, movie, videoModal, key, popover }) {
 		return (
-			<Drawer width={'90%'} docked={false}
+			<Drawer width={'85%'} docked={false}
+				// When initialize without true just the key modal goes crazy
 				//eslint-disable-next-line				
 				expandable={true} openSecondary={true}
 				//eslint-disable-next-line
