@@ -17,13 +17,13 @@ export default class Movies extends Component {
 		movie: null
 	}
 
-	loadMore(key){
+	loadMore(key) {
 		const v3 = key;
 		const url = `https://api.themoviedb.org/3/movie/popular?api_key=${v3}&language=en-US&page=${++this.state.page}`;
-		fetch(url,{
+		fetch(url, {
 			method: 'GET',
 			headers: {}
-		}).then( r => r.json() ).then(data => {
+		}).then(r => r.json()).then(data => {
 			let results = this.state.result;
 			this.setState({
 				page: data.page,
@@ -34,19 +34,19 @@ export default class Movies extends Component {
 		});
 	}
 
-	openDrawer(self,movie){
+	openDrawer(self, movie) {
 		self.props.GlobalStore.data = movie;
 		self.props.GlobalStore.type = 'movie';
 		self.props.GlobalStore.infoDrawer = true;
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const v3 = this.props.GlobalStore.v3_key;
 		const url = `https://api.themoviedb.org/3/movie/popular?api_key=${v3}&language=en-US&page=1`;
-		fetch(url,{
+		fetch(url, {
 			method: 'GET',
 			headers: {}
-		}).then( r => r.json() ).then(data => {
+		}).then(r => r.json()).then(data => {
 			this.setState({
 				page: data.page,
 				totalPages: data.total_pages
@@ -58,13 +58,13 @@ export default class Movies extends Component {
 		});
 
 	}
-	render( { GlobalStore } , { result , page , totalPages , drawer , movie } ) {
-		const loaded = result.length > 0 ;
+	render({ GlobalStore }, { result, page, totalPages, drawer, movie }) {
+		const loaded = result.length > 0;
 		const more = page < totalPages;
-		if (!loaded){
+		if (!loaded) {
 			return (
 				<div class={`${style.loadingParent}`}>
-					<CircularProgress style={{ display: 'block', margin: '0 auto' }}  size={50} thickness={5} />
+					<CircularProgress style={{ display: 'block', margin: '0 auto' }} size={50} thickness={5} />
 				</div>
 			);
 		}
@@ -74,10 +74,10 @@ export default class Movies extends Component {
 					cols={2}
 					cellHeight={200}
 					padding={1}
-					class={`${style.gridList} `+ (!more ? style.finishedList : '')}
+					class={`${style.gridList} ` + (!more ? style.finishedList : '')}
 				>
 					{
-						result.map((movie,index) => {
+						result.map((movie, index) => {
 							return (
 								<GridTile
 									title={movie.title}
@@ -87,9 +87,9 @@ export default class Movies extends Component {
 									cols={index === 0 || index === 3 ? 2 : 1}
 									rows={index === 0 || index === 3 ? 2 : 1}
 									//eslint-disable-next-line
-									onClick={() => {this.openDrawer(this,movie)}}
+									onClick={() => { this.openDrawer(this, movie) }}
 								>
-									<img src={`${GlobalStore.image_url}/w500`+(movie.backdrop_path !== null ? movie.backdrop_path : movie.poster_path)} />
+									<img src={`${GlobalStore.image_url}/w500` + (movie.backdrop_path !== null ? movie.backdrop_path : movie.poster_path)} />
 								</GridTile>
 							);
 						})
@@ -99,7 +99,7 @@ export default class Movies extends Component {
 					<div class={style.loadMore}>
 						<RaisedButton label="Load More"
 							//eslint-disable-next-line
-							fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)}/>
+							fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)} />
 					</div>
 					:
 					null

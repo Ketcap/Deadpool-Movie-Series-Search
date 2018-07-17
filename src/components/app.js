@@ -16,14 +16,11 @@ let GlobalStore = observable({
 	type: null
 });
 
-export default class App extends Component {
-	render() {
-		return (
-			<Provider GlobalStore={GlobalStore}>
-				<MuiThemeProvider>
-					<Main/>
-				</MuiThemeProvider>
-			</Provider>
-		);
-	}
-}
+const App = () => (
+	<Provider GlobalStore={GlobalStore}>
+		<MuiThemeProvider>
+			<Main />
+		</MuiThemeProvider>
+	</Provider>
+);
+export default App;

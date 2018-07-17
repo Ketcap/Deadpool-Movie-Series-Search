@@ -16,13 +16,13 @@ export default class Series extends Component {
 		totalPages: 0
 	}
 
-	loadMore(key){
+	loadMore(key) {
 		const v3 = key;
 		const url = `https://api.themoviedb.org/3/tv/popular?api_key=${v3}&language=en-US&page=${++this.state.page}`;
-		fetch(url,{
+		fetch(url, {
 			method: 'GET',
 			headers: {}
-		}).then( r => r.json() ).then(data => {
+		}).then(r => r.json()).then(data => {
 			let results = this.state.result;
 			this.setState({
 				page: data.page,
@@ -33,19 +33,19 @@ export default class Series extends Component {
 		});
 	}
 
-	openDrawer(self,movie){
+	openDrawer(self, movie) {
 		self.props.GlobalStore.data = movie;
 		self.props.GlobalStore.type = 'tv';
 		self.props.GlobalStore.infoDrawer = true;
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const v3 = this.props.GlobalStore.v3_key;
 		const url = `https://api.themoviedb.org/3/tv/popular?api_key=${v3}&language=en-US&page=1`;
-		fetch(url,{
+		fetch(url, {
 			method: 'GET',
 			headers: {}
-		}).then( r => r.json() ).then(data => {
+		}).then(r => r.json()).then(data => {
 			this.setState({
 				page: data.page,
 				totalPages: data.total_pages
@@ -57,13 +57,13 @@ export default class Series extends Component {
 		});
 
 	}
-	render( { GlobalStore } , { result , page , totalPages } ) {
-		const loaded = result.length > 0 ;
+	render({ GlobalStore }, { result, page, totalPages }) {
+		const loaded = result.length > 0;
 		const more = page < totalPages;
-		if (!loaded){
+		if (!loaded) {
 			return (
 				<div class={`${style.loadingParent}`}>
-					<CircularProgress style={{ display: 'block', margin: '0 auto' }}  size={50} thickness={5} />
+					<CircularProgress style={{ display: 'block', margin: '0 auto' }} size={50} thickness={5} />
 				</div>
 			);
 		}
@@ -73,10 +73,10 @@ export default class Series extends Component {
 					cols={2}
 					cellHeight={200}
 					padding={1}
-					class={`${style.gridList} `+ (!more ? style.finishedList : '')}
+					class={`${style.gridList} ` + (!more ? style.finishedList : '')}
 				>
 					{
-						result.map((tv,index) => {
+						result.map((tv, index) => {
 							return (
 								<GridTile
 									title={tv.name}
@@ -86,9 +86,9 @@ export default class Series extends Component {
 									cols={index === 0 || index === 3 ? 2 : 1}
 									rows={index === 0 || index === 3 ? 2 : 1}
 									//eslint-disable-next-line
-									onClick={() => {this.openDrawer(this,tv)}}
+									onClick={() => { this.openDrawer(this, tv) }}
 								>
-									<img style={{ top: '0' }} src={`${GlobalStore.image_url}/w500`+(tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
+									<img style={{ top: '0' }} src={`${GlobalStore.image_url}/w500` + (tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
 								</GridTile>
 							);
 						})
@@ -98,7 +98,7 @@ export default class Series extends Component {
 					<div class={style.loadMore}>
 						<RaisedButton label="Load More"
 							//eslint-disable-next-line
-							fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)}/>
+							fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)} />
 					</div>
 					:
 					null

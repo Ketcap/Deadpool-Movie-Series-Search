@@ -18,41 +18,41 @@ export default class BottomNav extends Component {
 		selectedIndex: 0
 	};
 
-	select = (index,r) => { this.setState({ selectedIndex: index }); route(r); }
+	select = (index, r) => { this.setState({ selectedIndex: index }); route(r); }
 
-	componentDidMount(){
+	componentDidMount() {
 		setTimeout(() => {
 			let page = this.props.page;
-			if (page === '/'){
+			if (page === '/') {
 				this.setState({ selectedIndex: 0 });
 			}
-			else if (page === '/series'){
+			else if (page === '/series') {
 				this.setState({ selectedIndex: 2 });
 			}
 			else {
 				this.setState({ selectedIndex: 1 });
 			}
-		},0);
+		}, 0);
 	}
-	
-	render( { } , { selectedIndex } ) {
+
+	render({ }, { selectedIndex }) {
 		return (
 			<Paper zDepth={1}>
-				<BottomNavigation style={{ position: 'fixed',bottom: 0 }} selectedIndex={this.state.selectedIndex}>
+				<BottomNavigation style={{ position: 'fixed', bottom: 0, height: '66px', paddingBottom: '10px' }} selectedIndex={this.state.selectedIndex}>
 					<BottomNavigationItem
 						label="Movies"
 						icon={moviesIcon}
-						onClick={() => this.select(0,'/')}
+						onClick={() => this.select(0, '/')}
 					/>
 					<BottomNavigationItem
 						label="Search"
 						icon={searchIcon}
-						onClick={() => this.select(1,'/search')}
+						onClick={() => this.select(1, '/search')}
 					/>
 					<BottomNavigationItem
 						label="Series"
 						icon={seriesIcon}
-						onClick={() => this.select(2,'/series')}
+						onClick={() => this.select(2, '/series')}
 					/>
 				</BottomNavigation>
 			</Paper>

@@ -14,7 +14,7 @@ export default class Search extends Component {
 		route: false
 	};
 
-	findMovie(query){
+	findMovie(query) {
 		this.setState({
 			isSearching: true,
 			movies: [],
@@ -22,10 +22,10 @@ export default class Search extends Component {
 		});
 		const v3 = this.props.GlobalStore.v3_key;
 		const url = `https://api.themoviedb.org/3/search/multi?api_key=${v3}&query=${query}&language=en-US&append_to_response=credits,videos`;
-		fetch(url,{
+		fetch(url, {
 			method: 'GET',
 			headers: {}
-		}).then( r => r.json() ).then(data => {
+		}).then(r => r.json()).then(data => {
 			this.setState({ isSearching: !this.isSearching });
 			console.log(data);
 		});
@@ -33,28 +33,28 @@ export default class Search extends Component {
 
 	handleChange = (value) => { this.setState({ slideIndex: value }); }
 
-	componentWillMount(){
+	componentWillMount() {
 		this.setState({
 			route: true
 		});
 	}
 
-	componentWillUpdate(newProps , newState){
+	componentWillUpdate(newProps, newState) {
 		const query = this.props.query;
-		console.log('new PROPS',newProps);
-		console.log('old PROPS',this.props);
-		if (newProps.query !== query ){
+		console.log('new PROPS', newProps);
+		console.log('old PROPS', this.props);
+		if (newProps.query !== query) {
 			console.log('search');
 			this.findMovie(query);
 		}
 	}
 
-	render({ query }, { slideIndex , isSearching  }) {
+	render({ query }, { slideIndex, isSearching }) {
 		return (
 			<div>
 				{isSearching ?
 					<div style={{ width: '100%', height: '100%', 'margin-top': 'calc(50vh - 20px)' }}>
-						<CircularProgress style={{ display: 'block', margin: '0 auto' }}  size={50} thickness={5} />
+						<CircularProgress style={{ display: 'block', margin: '0 auto' }} size={50} thickness={5} />
 					</div>
 					:
 					<div>
@@ -67,13 +67,12 @@ export default class Search extends Component {
 						</Tabs>
 						<SwipeableViews
 							index={slideIndex}
-							onChangeIndex={this.handleChange}
-						>
+							onChangeIndex={this.handleChange}>
 							<div>
-								<h2 >Tabs with slide effect</h2>
+								<h2>Tabs with slide effect</h2>
 								Swipe to see the next slide.<br />
 							</div>
-							<div >
+							<div>
 								slide n°2
 							</div>
 						</SwipeableViews>

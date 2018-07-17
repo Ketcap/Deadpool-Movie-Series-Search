@@ -13,16 +13,13 @@ export default class Header extends Component {
 
 	handleToggle = () => { this.setState({ open: !this.state.open }); }
 
-	type = (e) => { if (e.keyCode === 13){ route(`/search/${e.target.value}`,true); }}
+	type = (e) => { if (e.keyCode === 13) { route(`/search/${e.target.value}`, true); } }
 
-
-
-
-	render( { } , { selectedIndex , open  } ) {
+	render({ }, { selectedIndex, open }) {
 		return (
 			<div>
 				<AppBar
-					title={ 
+					title={
 						<TextField
 							id="Search"
 							//eslint-disable-next-line
