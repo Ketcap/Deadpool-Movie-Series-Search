@@ -8,7 +8,6 @@ class Deadpool {
 			method: 'GET',
 			headers: {}
 		}).then(r => r.json()).then(data => {
-			console.log(data)
 			callback(data);
 		});
 	}

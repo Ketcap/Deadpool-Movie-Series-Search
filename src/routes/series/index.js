@@ -42,12 +42,10 @@ export default class Series extends Component {
 		const { Deadpool } = this.props.GlobalStore;
 		Deadpool.TopRatedSeries({
 			callback: (data) => {
-				this.setState({
-					page: data.page,
-					totalPages: data.total_pages
-				});
 				const tv = data.results;
 				this.setState({
+					page: data.page,
+					totalPages: data.total_pages,
 					result: tv
 				});
 			}
@@ -73,22 +71,20 @@ export default class Series extends Component {
 					class={`${style.gridList} ` + (!more ? style.finishedList : '')}
 				>
 					{
-						result.map((tv, index) => {
-							return (
-								<GridTile
-									title={tv.name}
-									subtitle={tv.vote_average !== 0 ? <span><b>Score : {tv.vote_average}</b></span> : ''}
-									titlePosition="bottom"
-									titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-									cols={index === 0 || index % 3 === 0 ? 2 : 1}
-									rows={index === 0 || index % 3 === 0 ? 2 : 1}
-									//eslint-disable-next-line
-									onClick={() => { this.openDrawer(this, tv) }}
-								>
-									<img style={{ top: '0' }} src={`${GlobalStore.image_url}/w500` + (tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
-								</GridTile>
-							);
-						})
+						result.map((tv, index) => (
+							<GridTile
+								title={tv.name}
+								subtitle={tv.vote_average !== 0 && <span><b>Score : {tv.vote_average}</b></span>}
+								titlePosition="bottom"
+								titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+								cols={index % 3 === 0 ? 2 : 1}
+								rows={index % 3 === 0 ? 2 : 1}
+								//eslint-disable-next-line
+								onClick={() => { this.openDrawer(this, tv) }}
+							>
+								<img style={{ top: '0' }} src={`${GlobalStore.image_url}/w500` + (tv.backdrop_path !== null ? tv.backdrop_path : tv.poster_path)} />
+							</GridTile>
+						))
 					}
 				</GridList>
 				{more ?

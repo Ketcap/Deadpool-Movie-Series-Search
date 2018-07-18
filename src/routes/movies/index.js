@@ -42,12 +42,10 @@ export default class Movies extends Component {
 		const { Deadpool } = this.props.GlobalStore;
 		Deadpool.PopularMovies({
 			callback: (data) => {
-				this.setState({
-					page: data.page,
-					totalPages: data.total_pages
-				});
 				const movies = data.results;
 				this.setState({
+					page: data.page,
+					totalPages: data.total_pages,
 					result: movies
 				});
 			}
@@ -55,7 +53,7 @@ export default class Movies extends Component {
 
 
 	}
-	render({ GlobalStore }, { result, page, totalPages, drawer, movie }) {
+	render({ GlobalStore }, { result, page, totalPages }) {
 		const loaded = result.length > 0;
 		const more = page < totalPages;
 		if (!loaded) {
@@ -68,10 +66,10 @@ export default class Movies extends Component {
 		return (
 			<div>
 				<GridList
-					cols={2}
-					cellHeight={200}
-					padding={1}
-					class={`${style.gridList} ` + (!more ? style.finishedList : '')}
+					// cols={2}
+					// cellHeight={200}
+					// padding={1}
+					class={`${style.gridList} ` + (!more && style.finishedList)}
 				>
 					{
 						result.map((movie, index) => (
@@ -80,28 +78,25 @@ export default class Movies extends Component {
 								subtitle={<span><b>Score : {movie.vote_average}</b></span>}
 								titlePosition="bottom"
 								titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-								cols={index === 0 || index % 3 === 0 ? 2 : 1}
-								rows={index === 0 || index % 3 === 0 ? 2 : 1}
+								cols={index % 3 === 0 ? 2 : 1}
+								rows={index % 3 === 0 ? 2 : 1}
 								//eslint-disable-next-line
 								onClick={() => { this.openDrawer(this, movie) }}
 							>
 								<img src={`${GlobalStore.image_url}/w500` + (movie.backdrop_path !== null ? movie.backdrop_path : movie.poster_path)} />
 							</GridTile>
 						))
-					})
-				}
+					}
 				</GridList>
 				{
-					more ?
-						<div class={style.loadMore}>
-							<RaisedButton label="Load More"
-								//eslint-disable-next-line
-								fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)} />
-						</div>
-						:
-						null
+					more &&
+					<div class={style.loadMore}>
+						<RaisedButton label="Load More"
+							//eslint-disable-next-line
+							fullWidth={true} onClick={() => this.loadMore(GlobalStore.v3_key)} />
+					</div>
 				}
-			</div >
+			</div>
 		);
 	}
 }
